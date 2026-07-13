@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Duck Design Replica</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#fbf7ec',
+                        yellow: '#ffcc33',
+                        dark: '#111111',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fbf7ec;
+            color: #111111;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans">
+
+    <!-- Navbar -->
+    <nav
+        class="fixed w-full top-0 z-50 bg-cream/90 backdrop-blur-md transition-all duration-300 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+            <div onclick="window.location.href='index.html'" class="flex-shrink-0 flex items-center cursor-pointer relative z-50">
+                <span class="font-heading font-bold text-2xl sm:text-3xl tracking-tighter">
+                    <i class="fa-solid fa-duck text-dark mr-1"></i>OneDev
+                </span>
+            </div>
+            <div class="flex items-center space-x-4 md:space-x-6 relative z-50">
+                <a href="booking.html"
+                    class="hidden sm:flex bg-yellow hover:bg-yellow-500 text-dark font-semibold px-4 py-2 md:px-6 md:py-2.5 rounded-full transition duration-300 items-center text-sm md:text-base">
+                    BOOK A CALL <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+                <div
+                    class="hidden md:flex items-center space-x-2 font-semibold cursor-pointer hover:text-gray-600 transition">
+                    <span>EN</span>
+                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                </div>
+                <button class="text-dark focus:outline-none p-1 sm:p-2">
+                    <i class="fa-solid fa-bars text-2xl sm:text-3xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+ 
+    <!-- Header Section -->
+    <section class="pt-32 md:pt-40 pb-12 px-4 sm:px-6 max-w-5xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-heading font-extrabold tracking-tight mb-6 leading-tight">
+            Unlimited development for a flat monthly fee
+        </h1>
+        <p class="text-lg md:text-xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed">
+            We will take care of all your SaaS, web, and product engineering. No complex hiring, no overhead, no
+            contracts. Just your code shipped daily!
+        </p>
+        <a href="booking.html"
+            class="inline-block bg-dark hover:bg-gray-800 text-white font-heading font-bold text-lg px-8 py-4 rounded-full transition duration-300 shadow-md">
+            BOOK A CALL <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+    </section>
+
+    <!-- Faint Logos -->
+    <section class="pb-16 px-4">
+        <div class="flex justify-center items-center gap-12 sm:gap-24 opacity-40 grayscale">
+            <div class="text-center font-bold font-sans text-xl sm:text-2xl flex flex-col leading-none">
+                <span class="text-sm font-normal">Influencer</span>
+                MarketingHub
+            </div>
+            <div class="text-xl sm:text-3xl font-serif tracking-tighter">sortlist</div>
+            <div class="text-xl sm:text-2xl font-bold font-sans text-green-700">Upwork</div>
+            <div class="text-xl sm:text-3xl font-bold font-sans tracking-tight">Clutch</div>
+        </div>
+    </section>
+
+    <!-- Pricing Toggle -->
+    <section class="pb-12 px-4 flex flex-col items-center">
+        <!-- Billing Type Toggle (Monthly vs One-time) -->
+        <div class="flex items-center gap-2 mb-8 bg-white border border-gray-100 rounded-full p-1.5 shadow-sm">
+            <button id="toggle-monthly" class="font-bold bg-dark text-white rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none">
+                Monthly Subscription
+            </button>
+            <button id="toggle-onetime" class="font-medium text-gray-500 hover:text-dark rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none">
+                One-Time Project
+            </button>
+        </div>
+
+        <!-- Months Duration Selector (only shown when Monthly is active) -->
+        <div id="duration-selector"
+            class="bg-white rounded-full p-2 mx-auto w-max max-w-full flex shadow-sm border border-gray-100 overflow-x-auto hide-scroll transition-opacity duration-300 opacity-100">
+            <button id="btn-1mo"
+                class="toggle-btn bg-yellow font-bold text-dark px-6 py-3 rounded-full transition-all duration-300 text-sm sm:text-base whitespace-nowrap">
+                1 month
+            </button>
+            <button id="btn-3mo"
+                class="toggle-btn text-gray-500 font-medium hover:text-dark px-6 py-3 rounded-full transition-all duration-300 flex flex-col items-center justify-center leading-tight text-sm sm:text-base whitespace-nowrap">
+                3 months
+                <span class="text-xs font-normal">10% off</span>
+            </button>
+            <button id="btn-6mo"
+                class="toggle-btn text-gray-500 font-medium hover:text-dark px-6 py-3 rounded-full transition-all duration-300 flex flex-col items-center justify-center leading-tight text-sm sm:text-base whitespace-nowrap">
+                6 months
+                <span class="text-xs font-normal">20% off</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-16">
+
+        <!-- Card 1: Basic -->
+        <div class="relative bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-12 shadow-sm">
+            <!-- Badge -->
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span
+                    class="bg-white border border-gray-200 px-6 py-1.5 rounded-full font-bold text-sm shadow-sm">Basic</span>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-gray-100 pb-8 gap-6">
+                <div>
+                    <h2 class="text-3xl font-heading font-bold mb-2">Basic</h2>
+                    <p class="text-gray-600">Premium landing pages, company websites, and custom web applications.</p>
+                </div>
+                <div class="text-left md:text-right">
+                    <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
+                        $<span id="price-visual">1999</span>
+                    </div>
+                    <p id="period-visual" class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Per Month</p>
+                </div>
+            </div>
+
+            <p class="font-bold mb-6">Within this plan you get a dedicated developer for:</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-10 text-gray-800 font-medium">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Custom HTML/CSS & Javascript</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Responsive Mobile Design</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Webflow & Framer Development</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> WordPress & Custom CMS</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Search Engine Optimization (SEO)</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> High-Fidelity UI/UX Prototyping</div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <button onclick="window.location.href='booking.html'"
+                    class="w-full border-2 border-dark text-dark font-bold text-lg py-4 rounded-full hover:bg-dark hover:text-white transition duration-300">GET
+                    STARTED</button>
+                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                    ALL PLAN CAPABILITIES</button>
+            </div>
+        </div>
+
+        <!-- Card 2: Standard (Yellow) -->
+        <div class="relative bg-yellow border-2 border-yellow rounded-[2rem] p-8 sm:p-12 shadow-md">
+            <!-- Badges -->
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 flex space-x-3 w-max">
+                <span
+                    class="bg-white border border-gray-200 px-5 py-1.5 rounded-full font-bold text-sm shadow-sm">Standard</span>
+                <span
+                    class="bg-white border border-gray-200 px-5 py-1.5 rounded-full font-bold text-sm shadow-sm text-red-500">🔥
+                    Popular</span>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-dark/10 pb-8 gap-6">
+                <div class="max-w-md">
+                    <h2 class="text-3xl font-heading font-bold mb-2 leading-tight">Standard</h2>
+                    <p class="text-dark/80">Full-stack product engineering, custom SaaS portals, cloud applications, and integrations.</p>
+                </div>
+                <div class="text-left md:text-right">
+                    <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
+                        $<span id="price-creative">2999</span>
+                    </div>
+                    <p id="period-creative" class="text-sm font-bold text-dark/60 uppercase tracking-wide mt-1">Per Month</p>
+                </div>
+            </div>
+
+            <p class="font-bold mb-6">Within this plan you get a dedicated design & dev team for:</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-10 text-dark font-medium">
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Full-stack React / Vue / Next.js</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Node.js & Database Architectures</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> API Integrations & Webhooks</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Auth & Subscription Gateways</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Interactive Dashboard UI/UX</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Frontend Performance Optimization</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Performance & Security Audits</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> 24/7 Priority SLA Dev Support</div>
+                <div class="flex items-center gap-3"><span
+                        class="bg-white rounded-full w-5 h-5 flex items-center justify-center"><i
+                            class="fa-solid fa-check text-dark text-xs"></i></span> Continuous Deployment (CI/CD)</div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <button onclick="window.location.href='booking.html'"
+                    class="w-full bg-white text-dark font-bold text-lg py-4 rounded-full hover:bg-gray-100 transition duration-300 shadow-sm">GET
+                    STARTED</button>
+                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                    ALL PLAN CAPABILITIES</button>
+            </div>
+        </div>
+
+        <!-- Card 3: Ultimate -->
+        <div class="relative bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-12 shadow-sm">
+            <!-- Badge -->
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span
+                    class="bg-white border border-gray-200 px-6 py-1.5 rounded-full font-bold text-sm shadow-sm">Ultimate</span>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-gray-100 pb-8 gap-6">
+                <div>
+                    <h2 class="text-3xl font-heading font-bold mb-2">Ultimate</h2>
+                    <p class="text-gray-600">Advanced software engineering, legacy app migration, and AI core logic integrations.</p>
+                </div>
+                <div class="text-left md:text-right">
+                    <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
+                        $<span id="price-build">3999</span>
+                    </div>
+                    <p id="period-build" class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Per Month</p>
+                </div>
+            </div>
+
+            <p class="font-bold mb-6">Within this plan you get a dedicated engineer for:</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-10 text-gray-800 font-medium">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Custom Desktop & Mobile Apps</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Legacy System Migration</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> AI Core & LLM Integrations</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Complex Database Operations</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> DevOps & AWS/GCP Setup</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Code Auditing & Tech Debt Fixes</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> API Design & Documentation</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Advanced UI/UX Design Systems</div>
+                <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-yellow text-xl"></i> Dedicated Lead Engineer</div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <button onclick="window.location.href='booking.html'"
+                    class="w-full border-2 border-dark text-dark font-bold text-lg py-4 rounded-full hover:bg-dark hover:text-white transition duration-300">GET
+                    STARTED</button>
+                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                    ALL PLAN CAPABILITIES</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Included Features Section -->
+    <section class="pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div class="mb-8">
+            <span class="text-xs font-bold tracking-widest uppercase text-gray-500 flex items-center gap-2 mb-4">
+                <div class="w-8 h-px bg-gray-400"></div> INCLUDED IN ALL PLANS
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-heading font-bold mb-4">Every plan package deal</h2>
+            <p class="text-gray-600 text-lg">We handle all your creative needs – no freelancers, no hiring delays, no
+                contracts – just results.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12 mt-12 text-lg font-medium text-gray-800">
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-infinity"></i></div>
+                Unlimited requests
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-users"></i></div>
+                Real-time collaboration
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-rotate-left"></i></div>
+                Unlimited revisions
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-brands fa-trello"></i></div>
+                Trello Project Management
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-folder-tree"></i></div>
+                Unlimited brand profiles
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-money-bill-wave"></i>
+                </div> 7-day money-back guarantee
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-file-code"></i></div>
+                Native source files
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-8 flex justify-center text-yellow text-2xl"><i class="fa-solid fa-ban"></i></div> Cancel
+                anytime
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Toggle Logic -->
+    <script>
+        // DOM Elements
+        const toggleMonthly = document.getElementById('toggle-monthly');
+        const toggleOnetime = document.getElementById('toggle-onetime');
+        const durationSelector = document.getElementById('duration-selector');
+        
+        const btn1mo = document.getElementById('btn-1mo');
+        const btn3mo = document.getElementById('btn-3mo');
+        const btn6mo = document.getElementById('btn-6mo');
+        const durationButtons = [btn1mo, btn3mo, btn6mo];
+
+        const priceVisual = document.getElementById('price-visual');
+        const priceCreative = document.getElementById('price-creative');
+        const priceBuild = document.getElementById('price-build');
+
+        const periodVisual = document.getElementById('period-visual');
+        const periodCreative = document.getElementById('period-creative');
+        const periodBuild = document.getElementById('period-build');
+
+        // State variables
+        let currentBillingType = 'monthly'; // 'monthly' or 'onetime'
+        let currentDurationDiscount = 1.0;  // 1.0 (1mo), 0.9 (3mo), 0.8 (6mo)
+
+        // Prices Database
+        const prices = {
+            monthly: { basic: 1999, standard: 2999, ultimate: 3999 },
+            onetime: { basic: 4999, standard: 8999, ultimate: 14999 }
+        };
+
+        function renderPrices() {
+            if (currentBillingType === 'monthly') {
+                // Show months duration selector
+                durationSelector.classList.remove('hidden');
+                
+                // Update prices with discount multiplier
+                priceVisual.innerText = Math.round(prices.monthly.basic * currentDurationDiscount);
+                priceCreative.innerText = Math.round(prices.monthly.standard * currentDurationDiscount);
+                priceBuild.innerText = Math.round(prices.monthly.ultimate * currentDurationDiscount);
+
+                // Update sub-period labels
+                periodVisual.innerText = "Per Month";
+                periodCreative.innerText = "Per Month";
+                periodBuild.innerText = "Per Month";
+            } else {
+                // Hide months duration selector (one-time plans do not have monthly terms)
+                durationSelector.classList.add('hidden');
+
+                // Update prices to flat one-time fees
+                priceVisual.innerText = prices.onetime.basic;
+                priceCreative.innerText = prices.onetime.standard;
+                priceBuild.innerText = prices.onetime.ultimate;
+
+                // Update sub-period labels
+                periodVisual.innerText = "One-Time Project";
+                periodCreative.innerText = "One-Time Project";
+                periodBuild.innerText = "One-Time Project";
+            }
+        }
+
+        function setActiveDurationButton(activeBtn) {
+            durationButtons.forEach(btn => {
+                btn.classList.remove('bg-yellow', 'font-bold', 'text-dark', 'shadow-md');
+                btn.classList.add('text-gray-500', 'font-medium');
+            });
+            activeBtn.classList.add('bg-yellow', 'font-bold', 'text-dark', 'shadow-md');
+            activeBtn.classList.remove('text-gray-500', 'font-medium');
+        }
+
+        // Billing Type Listeners
+        toggleMonthly.addEventListener('click', () => {
+            currentBillingType = 'monthly';
+            
+            // Toggle active style
+            toggleMonthly.className = "font-bold bg-dark text-white rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none";
+            toggleOnetime.className = "font-medium text-gray-500 hover:text-dark rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none";
+            
+            renderPrices();
+        });
+
+        toggleOnetime.addEventListener('click', () => {
+            currentBillingType = 'onetime';
+
+            // Toggle active style
+            toggleOnetime.className = "font-bold bg-dark text-white rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none";
+            toggleMonthly.className = "font-medium text-gray-500 hover:text-dark rounded-full px-5 py-2.5 transition duration-300 text-sm sm:text-base focus:outline-none";
+
+            renderPrices();
+        });
+
+        // Duration Listeners
+        btn1mo.addEventListener('click', () => {
+            setActiveDurationButton(btn1mo);
+            currentDurationDiscount = 1.0;
+            renderPrices();
+        });
+
+        btn3mo.addEventListener('click', () => {
+            setActiveDurationButton(btn3mo);
+            currentDurationDiscount = 0.9;
+            renderPrices();
+        });
+
+        btn6mo.addEventListener('click', () => {
+            setActiveDurationButton(btn6mo);
+            currentDurationDiscount = 0.8;
+            renderPrices();
+        });
+
+        // Initial load rendering
+        renderPrices();
+    </script>
+</body>
+
+</html>

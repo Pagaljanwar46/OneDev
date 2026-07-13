@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneDev</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#fbf7ec',
+                        yellow: '#ffcc33',
+                        dark: '#111111',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fbf7ec;
+            color: #111111;
+        }
+
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full top-0 z-50 bg-cream/90 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center cursor-pointer relative z-50">
+                <span class="font-heading font-bold text-2xl sm:text-3xl tracking-tighter">
+                    <i class="fa-solid fa-duck text-dark mr-1"></i>OneDev
+                </span>
+            </div>
+
+            <!-- Right side (Desktop + Mobile Toggle) -->
+            <div class="flex items-center space-x-4 md:space-x-6 relative z-50">
+                <!-- Book Call (Hidden on very small screens, visible on tablet/desktop) -->
+                <a href="booking.html"
+                    class="hidden sm:flex bg-yellow hover:bg-yellow-500 text-dark font-semibold px-4 py-2 md:px-6 md:py-2.5 rounded-full transition duration-300 items-center text-sm md:text-base">
+                    <span data-i18n="nav_book_call">BOOK A CALL</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+                <!-- Language Dropdown (Desktop only) -->
+                <div class="relative hidden md:block">
+                    <button id="lang-btn-desktop"
+                        class="flex items-center space-x-2 font-semibold hover:text-gray-600 transition focus:outline-none py-2">
+                        <span id="active-lang-flag-desktop">🇺🇸</span>
+                        <span id="active-lang-code-desktop">EN</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"
+                            id="lang-chevron-desktop"></i>
+                    </button>
+                    <!-- Dropdown Options with Glassmorphism -->
+                    <div id="lang-dropdown-desktop"
+                        class="absolute right-0 mt-2 w-48 bg-cream/95 backdrop-blur-md border border-dark/10 shadow-lg rounded-2xl py-2 transition duration-200 ease-out transform opacity-0 scale-95 pointer-events-none z-50">
+                        <button onclick="changeLanguage('en')"
+                            class="flex items-center space-x-3 w-full px-4 py-2.5 text-left hover:bg-yellow/20 transition font-medium text-sm text-dark">
+                            <span>🇺🇸</span> <span>English (EN)</span>
+                        </button>
+                        <button onclick="changeLanguage('de')"
+                            class="flex items-center space-x-3 w-full px-4 py-2.5 text-left hover:bg-yellow/20 transition font-medium text-sm text-dark">
+                            <span>🇩🇪</span> <span>Deutsch (DE)</span>
+                        </button>
+                        <button onclick="changeLanguage('fr')"
+                            class="flex items-center space-x-3 w-full px-4 py-2.5 text-left hover:bg-yellow/20 transition font-medium text-sm text-dark">
+                            <span>🇫🇷</span> <span>Français (FR)</span>
+                        </button>
+                        <button onclick="changeLanguage('it')"
+                            class="flex items-center space-x-3 w-full px-4 py-2.5 text-left hover:bg-yellow/20 transition font-medium text-sm text-dark">
+                            <span>🇮🇹</span> <span>Italiano (IT)</span>
+                        </button>
+                        <button onclick="changeLanguage('ca')"
+                            class="flex items-center space-x-3 w-full px-4 py-2.5 text-left hover:bg-yellow/20 transition font-medium text-sm text-dark">
+                            <span>🇨🇦</span> <span>Canadian (CA)</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Hamburger Button (Always visible) -->
+                <button id="menu-btn" class="text-dark focus:outline-none p-1 sm:p-2">
+                    <i class="fa-solid fa-bars text-2xl sm:text-3xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay (Interactive Accordion) -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-cream z-40 hidden flex-col pt-28 px-4 sm:px-8 md:px-16 lg:px-32 h-screen overflow-y-auto w-full">
+        <ul
+            class="w-full max-w-4xl space-y-6 sm:space-y-8 text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-dark pb-32">
+
+            <!-- Accordion Item: Capabilities -->
+            <li>
+                <button
+                    class="accordion-btn flex justify-between items-center w-full text-left hover:opacity-70 transition-opacity duration-200"
+                    aria-expanded="false">
+                    <span data-i18n="nav_capabilities">CAPABILITIES</span> <i
+                        class="fa-solid fa-chevron-down text-lg md:text-2xl transition-transform duration-300"></i>
+                </button>
+                <ul
+                    class="accordion-content hidden mt-4 sm:mt-6 space-y-4 sm:space-y-5 pl-2 text-base sm:text-lg md:text-xl font-medium font-sans text-gray-800">
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 bg-yellow rounded flex items-center justify-center">
+                            <div class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-dark rounded-full"></div>
+                        </div><a href="#" data-i18n="service_website_dev" class="hover:text-yellow transition">Website Development</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 bg-yellow rounded flex items-center justify-center">
+                            <div class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-dark rounded-full"></div>
+                        </div><a href="#" data-i18n="service_saas_dev" class="hover:text-yellow transition">SaaS Development</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 bg-yellow rounded flex items-center justify-center">
+                            <div class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-dark rounded-full"></div>
+                        </div><a href="#" data-i18n="service_uiux_design" class="hover:text-yellow transition">UI/UX Design</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 bg-yellow rounded flex items-center justify-center">
+                            <div class="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-dark rounded-full"></div>
+                        </div><a href="#" data-i18n="service_software_dev" class="hover:text-yellow transition">Software Development</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Accordion Item: Our Works -->
+            <li>
+                <button
+                    class="accordion-btn flex justify-between items-center w-full text-left hover:opacity-70 transition-opacity duration-200"
+                    aria-expanded="false">
+                    <span data-i18n="nav_our_works">OUR WORKS</span> <i
+                        class="fa-solid fa-chevron-down text-lg md:text-2xl transition-transform duration-300"></i>
+                </button>
+                <ul
+                    class="accordion-content hidden mt-4 sm:mt-6 space-y-4 sm:space-y-5 pl-2 text-base sm:text-lg md:text-xl font-medium font-sans text-gray-800">
+                    <li class="flex items-center gap-3"><span class="text-yellow text-lg sm:text-xl"><i
+                                class="fa-solid fa-folder-open"></i></span> <a href="#" data-i18n="nav_portfolio"
+                            class="hover:text-yellow transition">Portfolio</a></li>
+                    <li class="flex items-center gap-3"><span class="text-yellow text-lg sm:text-xl"><i
+                                class="fa-regular fa-file-lines"></i></span> <a href="#" data-i18n="nav_case_studies"
+                            class="hover:text-yellow transition">Case Studies</a></li>
+                </ul>
+            </li>
+
+            <!-- Accordion Item: AI Design -->
+            <li>
+                <button
+                    class="accordion-btn flex justify-between items-center w-full text-left hover:opacity-70 transition-opacity duration-200"
+                    aria-expanded="false">
+                    <span data-i18n="nav_ai_design">AI DESIGN</span> <i
+                        class="fa-solid fa-chevron-down text-lg md:text-2xl transition-transform duration-300"></i>
+                </button>
+                <ul
+                    class="accordion-content hidden mt-4 sm:mt-6 space-y-4 sm:space-y-5 pl-2 text-base sm:text-lg md:text-xl font-medium font-sans text-gray-800">
+                    <li class="flex items-center gap-3"><span class="text-yellow text-lg sm:text-xl"><i
+                                class="fa-solid fa-wand-magic-sparkles"></i></span> <a href="#"
+                            data-i18n="nav_ai_design_link" class="hover:text-yellow transition">AI Design</a></li>
+                    <li class="flex items-center gap-3"><span class="text-yellow text-lg sm:text-xl"><i
+                                class="fa-solid fa-code"></i></span> <a href="#" data-i18n="nav_ai_dev"
+                            class="hover:text-yellow transition">AI Development</a></li>
+                </ul>
+            </li>
+
+            <!-- Standard Links -->
+            <li><a href="#" data-i18n="nav_nocode"
+                    class="block hover:opacity-70 transition-opacity duration-200 w-full text-left">NO-CODE</a></li>
+            <li><a href="#" data-i18n="nav_about"
+                    class="block hover:opacity-70 transition-opacity duration-200 w-full text-left">ABOUT US</a></li>
+            <li><a href="#" data-i18n="nav_blog"
+                    class="block hover:opacity-70 transition-opacity duration-200 w-full text-left">BLOG</a></li>
+
+            <!-- Mobile Language Selector Accordion -->
+            <li class="border-t border-dark/10 pt-6">
+                <button id="lang-btn-mobile"
+                    class="accordion-btn flex justify-between items-center w-full text-left hover:opacity-70 transition-opacity duration-200"
+                    aria-expanded="false">
+                    <span class="flex items-center gap-3">
+                        <span id="active-lang-flag-mobile">🇺🇸</span>
+                        <span id="active-lang-code-mobile">ENGLISH (EN)</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-lg md:text-2xl transition-transform duration-300"></i>
+                </button>
+                <ul
+                    class="accordion-content hidden mt-4 space-y-4 pl-4 text-lg md:text-xl font-medium font-sans text-gray-850">
+                    <li>
+                        <button onclick="changeLanguage('en')"
+                            class="flex items-center gap-3 hover:text-yellow transition w-full text-left py-1">
+                            <span>🇺🇸</span> English (EN)
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeLanguage('de')"
+                            class="flex items-center gap-3 hover:text-yellow transition w-full text-left py-1">
+                            <span>🇩🇪</span> Deutsch (DE)
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeLanguage('fr')"
+                            class="flex items-center gap-3 hover:text-yellow transition w-full text-left py-1">
+                            <span>🇫🇷</span> Français (FR)
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeLanguage('it')"
+                            class="flex items-center gap-3 hover:text-yellow transition w-full text-left py-1">
+                            <span>🇮🇹</span> Italiano (IT)
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeLanguage('ca')"
+                            class="flex items-center gap-3 hover:text-yellow transition w-full text-left py-1">
+                            <span>🇨🇦</span> Canadian (CA)
+                        </button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-28 md:pt-32 pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-left mt-6 md:mt-10">
+        <div class="flex items-center space-x-3 mb-6">
+            <div class="h-[2px] w-12 bg-orange-400"></div>
+            <p data-i18n="hero_tagline"
+                class="font-semibold tracking-widest text-xs sm:text-sm uppercase text-gray-700">Your Full Service
+                Design Partner</p>
+        </div>
+ 
+        <h1 data-i18n="hero_title"
+            class="text-4xl sm:text-6xl lg:text-8xl font-heading font-extrabold tracking-tight mb-6 md:mb-8 leading-tight">
+            Build Without Limits
+        </h1>
+ 
+        <p data-i18n="hero_desc" data-i18n-html="true"
+            class="text-base sm:text-lg md:text-xl text-gray-700 mb-8 md:mb-10 max-w-3xl leading-relaxed">
+            Unlimited design for a flat monthly fee.<br class="hidden sm:block">
+            We will take care of all your creative needs.<br class="hidden sm:block">
+            No lengthy hiring procedures. No inefficient freelancers. No contracts.
+        </p>
+ 
+        <a href="booking.html"
+            class="inline-flex justify-center items-center bg-yellow hover:bg-yellow-500 text-dark font-heading font-bold text-base md:text-lg px-8 py-4 rounded-full transition duration-300 shadow-md w-full sm:w-auto">
+            <span data-i18n="nav_book_call">BOOK A CALL</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+    </section>
+
+    <!-- Graphic Design Bottleneck (Clients Marquee Simulation) -->
+    <section class="py-12 md:py-16 bg-white border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+            <h2 data-i18n="bottleneck_title" class="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4">Fix
+                Your Graphic Design Bottleneck</h2>
+            <p data-i18n="bottleneck_desc" class="text-sm sm:text-base text-gray-600 mb-8 md:mb-10 max-w-3xl mx-auto">
+                Your brand designs are too important to be left in the hands of unreliable freelancers or expensive
+                creative agencies. Why not hire an experienced designer who knows you by name and your brand by heart?
+            </p>
+
+            <div class="flex flex-wrap justify-center items-center gap-6 sm:gap-8 opacity-60">
+                <div class="text-xl sm:text-2xl font-bold font-serif text-gray-400">amazon</div>
+                <div class="text-xl sm:text-2xl font-bold font-sans text-gray-400 italic">stripe</div>
+                <div class="text-xl sm:text-2xl font-bold font-serif text-gray-400">P&G</div>
+                <div class="text-xl sm:text-2xl font-bold font-sans tracking-tighter text-gray-400">beko</div>
+                <div class="text-xl sm:text-2xl font-bold font-sans text-gray-400">Burger King</div>
+            </div>
+
+            <div class="mt-8 md:mt-12">
+                <a href="pricing.html"
+                    class="inline-block border-2 border-dark text-dark font-bold px-6 py-2.5 md:px-8 md:py-3 rounded-full hover:bg-dark hover:text-white transition duration-300 text-sm md:text-base">
+                    <span data-i18n="bottleneck_btn">OUR PLANS</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 data-i18n="services_title" class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-10 lg:mb-16">
+            Our Services</h2>
+ 
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 text-left mb-10 lg:mb-12">
+            <!-- Service Card 1 -->
+            <div
+                class="bg-yellow rounded-[2rem] p-6 lg:p-8 h-64 lg:h-80 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden relative">
+                <div
+                    class="absolute inset-0 opacity-20 bg-[url('https://via.placeholder.com/400x300')] bg-cover bg-center">
+                </div>
+                <div class="relative z-10 flex-grow flex items-center justify-center">
+                    <i class="fa-solid fa-laptop-code text-5xl lg:text-6xl"></i>
+                </div>
+                <h3 data-i18n="service_website_dev"
+                    class="relative z-10 text-lg sm:text-xl lg:text-2xl font-heading font-bold bg-white inline-block max-w-full px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl">
+                    Website Development</h3>
+            </div>
+ 
+            <!-- Service Card 2 -->
+            <div
+                class="bg-gray-100 rounded-[2rem] p-6 lg:p-8 h-64 lg:h-80 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden relative">
+                <div
+                    class="absolute inset-0 opacity-20 bg-[url('https://via.placeholder.com/400x300')] bg-cover bg-center">
+                </div>
+                <div class="relative z-10 flex-grow flex items-center justify-center">
+                    <i class="fa-solid fa-cloud text-5xl lg:text-6xl"></i>
+                </div>
+                <h3 data-i18n="service_saas_dev"
+                    class="relative z-10 text-lg sm:text-xl lg:text-2xl font-heading font-bold bg-white inline-block max-w-full px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl">
+                    SaaS Development</h3>
+            </div>
+ 
+            <!-- Service Card 3 -->
+            <div
+                class="bg-dark text-white rounded-[2rem] p-6 lg:p-8 h-64 lg:h-80 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden relative sm:col-span-2 lg:col-span-1">
+                <div
+                    class="absolute inset-0 opacity-20 bg-[url('https://via.placeholder.com/400x300')] bg-cover bg-center">
+                </div>
+                <div class="relative z-10 flex-grow flex items-center justify-center">
+                    <i class="fa-solid fa-code text-5xl lg:text-6xl"></i>
+                </div>
+                <h3 data-i18n="service_software_dev"
+                    class="relative z-10 text-lg sm:text-xl lg:text-2xl font-heading font-bold bg-white text-dark inline-block max-w-full px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl">
+                    Software Development</h3>
+            </div>
+        </div>
+ 
+        <a href="pricing.html"
+            class="inline-block border-2 border-dark text-dark font-bold px-6 py-2.5 md:px-8 md:py-3 rounded-full hover:bg-dark hover:text-white transition duration-300 text-sm md:text-base">
+            <span data-i18n="services_btn">ALL SERVICES</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="py-16 lg:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 data-i18n="how_title"
+            class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-12 lg:mb-16 text-center">Here's how to get
+            started:</h2>
+
+        <div class="space-y-10 lg:space-y-12">
+            <!-- Step 1 -->
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                <div class="flex-shrink-0">
+                    <div
+                        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-lg sm:text-xl">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 data-i18n="step1_title" class="text-xl sm:text-2xl font-bold font-heading mb-2">Choose a Plan
+                    </h3>
+                    <p data-i18n="step1_desc" class="text-gray-600 text-base sm:text-lg">Clients select from various
+                        plans based on their needs and budget.</p>
+                </div>
+            </div>
+            <!-- Step 2 -->
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                <div class="flex-shrink-0">
+                    <div
+                        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-lg sm:text-xl">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 data-i18n="step2_title" class="text-xl sm:text-2xl font-bold font-heading mb-2">Payment</h3>
+                    <p data-i18n="step2_desc" class="text-gray-600 text-base sm:text-lg">After selecting a plan, clients
+                        proceed to payment.</p>
+                </div>
+            </div>
+            <!-- Step 3 -->
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                <div class="flex-shrink-0">
+                    <div
+                        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-lg sm:text-xl">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 data-i18n="step3_title" class="text-xl sm:text-2xl font-bold font-heading mb-2">Onboarding and
+                        Brief</h3>
+                    <p data-i18n="step3_desc" class="text-gray-600 text-base sm:text-lg">Upon successful payment, a
+                        project manager is assigned to the client for onboarding and task clarification. Clients fill
+                        out a brief detailing their business and design needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12 lg:mt-16">
+            <a href="pricing.html"
+                class="inline-block border-2 border-dark text-dark font-bold px-8 py-3 md:px-12 md:py-4 rounded-full w-full sm:w-auto hover:bg-dark hover:text-white transition duration-300">
+                <span data-i18n="step_btn">SEE OUR PLANS</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 lg:pt-20 pb-8 lg:pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12 lg:mb-16 border-b border-gray-700 pb-10 lg:pb-12">
+                <!-- Column 1 -->
+                <div>
+                    <div class="font-heading font-bold text-2xl lg:text-3xl tracking-tighter mb-4 lg:mb-6">
+                        <i class="fa-solid fa-duck text-yellow mr-1"></i>OneDev
+                    </div>
+                    <div class="flex space-x-4 mb-4 lg:mb-6 text-lg lg:text-xl">
+                        <a href="#" class="hover:text-yellow transition"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="hover:text-yellow transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-yellow transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-yellow transition"><i class="fa-brands fa-dribbble"></i></a>
+                    </div>
+                    <p class="text-xs lg:text-sm text-gray-400">71-75, Shelton Street, Covent Garden,<br>London, WC2H
+                        9JQ, UNITED KINGDOM</p>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <h4 data-i18n="footer_about_title" class="font-heading font-bold text-lg lg:text-xl mb-4 lg:mb-6">
+                        About</h4>
+                    <ul class="space-y-2 lg:space-y-3 text-sm lg:text-base text-gray-300">
+                        <li><a href="#" data-i18n="nav_portfolio" class="hover:text-yellow transition">Portfolio</a>
+                        </li>
+                        <li><a href="#" data-i18n="nav_case_studies" class="hover:text-yellow transition">Our Case
+                                Studies</a></li>
+                        <li><a href="#" data-i18n="footer_careers" class="hover:text-yellow transition">Careers</a></li>
+                        <li><a href="#" data-i18n="footer_referral" class="hover:text-yellow transition">Referral
+                                Program</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h4 data-i18n="footer_services_title"
+                        class="font-heading font-bold text-lg lg:text-xl mb-4 lg:mb-6">Services</h4>
+                    <ul class="space-y-2 lg:space-y-3 text-sm lg:text-base text-gray-300">
+                        <li><a href="#" data-i18n="footer_hire_developer" class="hover:text-yellow transition">Hire a
+                                Developer</a></li>
+                        <li><a href="#" data-i18n="footer_nocode_dev" class="hover:text-yellow transition">No-code
+                                Development</a></li>
+                        <li><a href="#" data-i18n="footer_time_material" class="hover:text-yellow transition">Time and
+                                material</a></li>
+                        <li><a href="#" data-i18n="nav_ai_dev" class="hover:text-yellow transition">AI
+                                Development</a></li>
+                        <li><a href="pricing.html" data-i18n="footer_pricing" class="hover:text-yellow transition">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div>
+                    <h4 data-i18n="footer_capabilities_title"
+                        class="font-heading font-bold text-lg lg:text-xl mb-4 lg:mb-6">Capabilities</h4>
+                    <ul class="space-y-2 lg:space-y-3 text-sm lg:text-base text-gray-300">
+                        <li><a href="#" data-i18n="service_website_dev" class="hover:text-yellow transition">Website
+                                Development</a></li>
+                        <li><a href="#" data-i18n="service_saas_dev" class="hover:text-yellow transition">SaaS
+                                Development</a></li>
+                        <li><a href="#" data-i18n="service_uiux_design" class="hover:text-yellow transition">UI/UX
+                                Design</a></li>
+                        <li><a href="#" data-i18n="service_software_dev" class="hover:text-yellow transition">Software
+                                Development</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact & Copyright -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                <div>
+                    <h4 data-i18n="footer_contact_title" class="font-heading font-bold text-lg lg:text-xl mb-1 lg:mb-2">
+                        Contact Us</h4>
+                    <p class="text-sm lg:text-base text-gray-300">contact@onedev.co<br>+1 287 789 1800</p>
+                </div>
+                <a href="booking.html"
+                    class="border-2 border-yellow text-yellow hover:bg-yellow hover:text-dark font-bold px-6 py-2.5 lg:px-8 lg:py-3 rounded-full transition duration-300 text-sm lg:text-base w-full sm:w-auto text-center">
+                    <span data-i18n="nav_book_call">BOOK A CALL</span>
+                </a>
+            </div>
+            <div
+                class="mt-10 lg:mt-12 flex flex-col sm:flex-row justify-between text-xs text-gray-500 space-y-4 sm:space-y-0">
+                <p data-i18n="footer_rights">© 2026 OneDev. All Rights Reserved.</p>
+                <div class="flex flex-wrap gap-3 lg:space-x-4">
+                    <a href="#" data-i18n="footer_refund_policy" class="hover:text-gray-300">Refund Policy</a>
+                    <a href="#" data-i18n="footer_privacy_policy" class="hover:text-gray-300">Privacy Policy</a>
+                    <a href="#" data-i18n="footer_terms" class="hover:text-gray-300">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Menu Script -->
+    <script>
+        // Main Menu Toggle Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+
+            // Toggle hamburger to X icon and lock body scroll
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+                document.body.style.overflow = 'auto'; // Re-enable background scrolling
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        });
+
+        // Accordion Dropdown Logic
+        const accordionBtns = document.querySelectorAll('.accordion-btn');
+
+        accordionBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const content = this.nextElementSibling;
+                const chevron = this.querySelector('.fa-chevron-down');
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                // Close other opened accordions automatically
+                accordionBtns.forEach(otherBtn => {
+                    if (otherBtn !== this && otherBtn.getAttribute('aria-expanded') === 'true') {
+                        otherBtn.setAttribute('aria-expanded', 'false');
+                        otherBtn.nextElementSibling.classList.add('hidden');
+                        otherBtn.querySelector('.fa-chevron-down').classList.remove('rotate-180');
+                    }
+                });
+
+                // Toggle current clicked state
+                this.setAttribute('aria-expanded', !isExpanded);
+
+                if (!isExpanded) {
+                    content.classList.remove('hidden');
+                    chevron.classList.add('rotate-180');
+                } else {
+                    content.classList.add('hidden');
+                    chevron.classList.remove('rotate-180');
+                }
+            });
+        });
+
+        // Language Translation System
+        const translations = {
+            en: {
+                nav_capabilities: "CAPABILITIES",
+                service_website_dev: "Website Development",
+                service_saas_dev: "SaaS Development",
+                service_uiux_design: "UI/UX Design",
+                service_software_dev: "Software Development",
+                nav_our_works: "OUR WORKS",
+                nav_portfolio: "Portfolio",
+                nav_case_studies: "Case Studies",
+                nav_ai_design: "AI SOLUTIONS",
+                nav_ai_design_link: "AI Development",
+                nav_ai_dev: "AI Integration",
+                nav_nocode: "NO-CODE",
+                nav_about: "ABOUT US",
+                nav_blog: "BLOG",
+                nav_book_call: "BOOK A CALL",
+                hero_tagline: "Your Full Service Development Partner",
+                hero_title: "Built Without Limits",
+                hero_desc: "Unlimited software development for a flat monthly fee.<br class=\"hidden sm:block\">\n            We will take care of all your SaaS, web, and product engineering.<br class=\"hidden sm:block\">\n            No complex hiring, no overhead, no contracts.",
+                bottleneck_title: "Fix Your Software Development Bottleneck",
+                bottleneck_desc: "Your product development is too important to be stalled by slow recruitment or high agency overhead. Partner with dedicated, elite developers who ship clean code daily.",
+                bottleneck_btn: "OUR PLANS",
+                services_title: "Our Services",
+                services_btn: "ALL SERVICES",
+                how_title: "Here's how to get started:",
+                step1_title: "Choose a Plan",
+                step1_desc: "Clients select from various plans based on their needs and budget.",
+                step2_title: "Payment",
+                step2_desc: "After selecting a plan, clients proceed to payment.",
+                step3_title: "Onboarding and Backlog",
+                step3_desc: "Upon payment, a Product Manager is assigned to you. You'll align on your dev backlog, prioritize tasks, and our developers will start writing code immediately.",
+                step_btn: "SEE OUR PLANS",
+                footer_about_title: "About",
+                footer_careers: "Careers",
+                footer_referral: "Referral Program",
+                footer_services_title: "Services",
+                footer_hire_developer: "Hire a Developer",
+                footer_nocode_dev: "No-code Development",
+                footer_time_material: "Time and material",
+                footer_pricing: "Pricing",
+                footer_capabilities_title: "Capabilities",
+                footer_contact_title: "Contact Us",
+                footer_rights: "© 2026 OneDev. All Rights Reserved.",
+                footer_refund_policy: "Refund Policy",
+                footer_privacy_policy: "Privacy Policy",
+                footer_terms: "Terms & Conditions"
+            },
+            de: {
+                nav_capabilities: "FUNKTIONEN",
+                service_website_dev: "Webseiten-Entwicklung",
+                service_saas_dev: "SaaS-Entwicklung",
+                service_uiux_design: "UI/UX-Design",
+                service_software_dev: "Softwareentwicklung",
+                nav_our_works: "UNSERE ARBEITEN",
+                nav_portfolio: "Portfolio",
+                nav_case_studies: "Fallstudien",
+                nav_ai_design: "KI-LÖSUNGEN",
+                nav_ai_design_link: "KI-Entwicklung",
+                nav_ai_dev: "KI-Integration",
+                nav_nocode: "NO-CODE",
+                nav_about: "ÜBER UNS",
+                nav_blog: "BLOG",
+                nav_book_call: "GESPRÄCH BUCHEN",
+                hero_tagline: "Ihr Full-Service-Entwicklungspartner",
+                hero_title: "Grenzenlos gebaut",
+                hero_desc: "Unbegrenzte Softwareentwicklung zum monatlichen Festpreis.<br class=\"hidden sm:block\">\n            Wir kümmern uns um alle Ihre SaaS-, Web- und Produkt-Engineering-Anforderungen.<br class=\"hidden sm:block\">\n            Keine komplexe Personalbeschaffung, keine Gemeinkosten, keine Verträge.",
+                bottleneck_title: "Beheben Sie Ihren Engpass in der Softwareentwicklung",
+                bottleneck_desc: "Ihre Produktentwicklung ist zu wichtig, um durch langsame Rekrutierung oder hohe Agenturkosten aufgehalten zu werden. Arbeiten Sie mit engagierten Elite-Entwicklern zusammen, die täglich sauberen Code liefern.",
+                bottleneck_btn: "UNSERE PLÄNE",
+                services_title: "Unsere Dienstleistungen",
+                services_btn: "ALLE DIENSTE",
+                how_title: "So legen Sie los:",
+                step1_title: "Wählen Sie einen Plan",
+                step1_desc: "Kunden wählen aus verschiedenen Plänen basierend auf ihren Bedürfnissen und ihrem Budget.",
+                step2_title: "Zahlung",
+                step2_desc: "Nach Auswahl eines Plans fahren Kunden mit der Zahlung fort.",
+                step3_title: "Onboarding und Backlog",
+                step3_desc: "Nach der Zahlung wird Ihnen ein Produktmanager zugewiesen. Sie stimmen Ihr Entwicklungs-Backlog ab, priorisieren Aufgaben, und unsere Entwickler schreiben sofort Code.",
+                step_btn: "UNSERE PLÄNE ANSEHEN",
+                footer_about_title: "Über uns",
+                footer_careers: "Karriere",
+                footer_referral: "Empfehlungsprogramm",
+                footer_services_title: "Dienstleistungen",
+                footer_hire_developer: "Entwickler einstellen",
+                footer_nocode_dev: "No-Code-Entwicklung",
+                footer_time_material: "Zeit und Material",
+                footer_pricing: "Preise",
+                footer_capabilities_title: "Fähigkeiten",
+                footer_contact_title: "Kontaktieren Sie uns",
+                footer_rights: "© 2026 OneDev. Alle Rechte vorbehalten.",
+                footer_refund_policy: "Erstattungsrichtlinie",
+                footer_privacy_policy: "Datenschutzrichtlinie",
+                footer_terms: "Allgemeine Geschäftsbedingungen"
+            },
+            fr: {
+                nav_capabilities: "COMPÉTENCES",
+                service_website_dev: "Développement de Site Web",
+                service_saas_dev: "Développement SaaS",
+                service_uiux_design: "Design UI/UX",
+                service_software_dev: "Développement Logiciel",
+                nav_our_works: "NOS RÉALISATIONS",
+                nav_portfolio: "Portfolio",
+                nav_case_studies: "Études de Cas",
+                nav_ai_design: "SOLUTIONS IA",
+                nav_ai_design_link: "Développement IA",
+                nav_ai_dev: "Intégration IA",
+                nav_nocode: "SANS CODE",
+                nav_about: "À PROPOS",
+                nav_blog: "BLOG",
+                nav_book_call: "RÉSERVER UN APPEL",
+                hero_tagline: "Votre partenaire de développement tout-en-un",
+                hero_title: "Construit Sans Limites",
+                hero_desc: "Développement logiciel illimité pour un forfait mensuel. Nous gérons toute votre ingénierie SaaS, web et produit.<br class=\"hidden sm:block\">\n            Pas de recrutement complexe, pas de frais généraux, pas de contrat.",
+                bottleneck_title: "Résolvez votre goulot d'étranglement de développement",
+                bottleneck_desc: "Le développement de vos produits est trop important pour être ralenti par un recrutement fastidieux ou des frais d'agence élevés. Associez-vous à des développeurs d'élite dédiés qui livrent du code propre chaque jour.",
+                bottleneck_btn: "NOS TARIFS",
+                services_title: "Nos Services",
+                services_btn: "TOUS LES SERVICES",
+                how_title: "Comment commencer :",
+                step1_title: "Choisissez un forfait",
+                step1_desc: "Les clients choisissent parmi différents forfaits en fonction de leurs besoins et de leurs budget.",
+                step2_title: "Paiement",
+                step2_desc: "Après avoir sélectionné un forfait, les clients procèdent au paiement.",
+                step3_title: "Intégration et Backlog",
+                step3_desc: "Dès le paiement effectué, un chef de produit vous est attribué. Vous cadrez votre backlog de développement, définissez les priorités, et nos développeurs commencent à coder immédiatement.",
+                step_btn: "VOIR NOS PLANS",
+                footer_about_title: "À propos",
+                footer_careers: "Recrutement",
+                footer_referral: "Programme de Parrainage",
+                footer_services_title: "Services",
+                footer_hire_developer: "Embaucher un Développeur",
+                footer_nocode_dev: "Développement Sans Code",
+                footer_time_material: "Temps et Matériel",
+                footer_pricing: "Tarification",
+                footer_capabilities_title: "Compétences",
+                footer_contact_title: "Contactez-nous",
+                footer_rights: "© 2026 OneDev. Tous droits réservés.",
+                footer_refund_policy: "Politique de remboursement",
+                footer_privacy_policy: "Politique de confidentialité",
+                footer_terms: "Conditions générales"
+            },
+            it: {
+                nav_capabilities: "CAPACITÀ",
+                service_website_dev: "Sviluppo Siti Web",
+                service_saas_dev: "Sviluppo SaaS",
+                service_uiux_design: "Design UI/UX",
+                service_software_dev: "Sviluppo Software",
+                nav_our_works: "I NOSTRI LAVORI",
+                nav_portfolio: "Portfolio",
+                nav_case_studies: "Casi di Studio",
+                nav_ai_design: "SOLUZIONI IA",
+                nav_ai_design_link: "Sviluppo IA",
+                nav_ai_dev: "Integrazione IA",
+                nav_nocode: "NO-CODE",
+                nav_about: "CHI SIAMO",
+                nav_blog: "BLOG",
+                nav_book_call: "PRENOTA UNA CHIAMATA",
+                hero_tagline: "Il tuo partner di sviluppo a servizio completo",
+                hero_title: "Costruito Senza Limiti",
+                hero_desc: "Sviluppo software illimitato a una tariffa mensile fissa. Gestiamo tutta la tua ingegneria SaaS, web e di prodotto.<br class=\"hidden sm:block\">\n            Nessuna complicata assunzione, nessun costo fisso, nessun contratto.",
+                bottleneck_title: "Risolvi il collo di bottiglia del tuo sviluppo software",
+                bottleneck_desc: "Lo sviluppo del tuo prodotto è troppo importante per essere rallentato da assunzioni laboriose o spese di agenzia elevate. Collabora con sviluppatori d'élite dedicati che scrivono codice pulito ogni giorno.",
+                bottleneck_btn: "I NOSTRI PIANI",
+                services_title: "I Nostri Servizi",
+                services_btn: "TUTTI I SERVIZI",
+                how_title: "Ecco come iniziare:",
+                step1_title: "Scegli un piano",
+                step1_desc: "I clienti scelgono tra vari piani in base alle loro esigenze e al loro budget.",
+                step2_title: "Pagamento",
+                step2_desc: "Dopo aver selezionato un piano, i clienti procedono al pagamento.",
+                step3_title: "Onboarding e Backlog",
+                step3_desc: "A pagamento avvenuto, ti viene assegnato un project manager. Definisci il tuo backlog di sviluppo, decidi le priorità e i nostri sviluppatori inizieranno a programmare da subito.",
+                step_btn: "VEDI I NOSTRI PIANI",
+                footer_about_title: "Chi siamo",
+                footer_careers: "Opportunità di lavoro",
+                footer_referral: "Programma di Affiliazione",
+                footer_services_title: "Servizi",
+                footer_hire_developer: "Assumi uno Sviluppatore",
+                footer_nocode_dev: "Sviluppo No-Code",
+                footer_time_material: "Tempo e Materiale",
+                footer_pricing: "Listino Prezzi",
+                footer_capabilities_title: "Capacità",
+                footer_contact_title: "Contattaci",
+                footer_rights: "© 2026 OneDev. Tutti i diritti riservati.",
+                footer_refund_policy: "Politica di rimborso",
+                footer_privacy_policy: "Informativa sulla privacy",
+                footer_terms: "Termini e condizioni"
+            },
+            ca: {
+                nav_capabilities: "CAPABILITIES | COMPÉTENCES",
+                service_website_dev: "Website Development | Site Web",
+                service_saas_dev: "SaaS Development",
+                service_uiux_design: "UI/UX Design",
+                service_software_dev: "Software Development",
+                nav_our_works: "OUR WORKS | RÉALISATIONS",
+                nav_portfolio: "Portfolio",
+                nav_case_studies: "Case Studies",
+                nav_ai_design: "AI SOLUTIONS | IA",
+                nav_ai_design_link: "AI Development",
+                nav_ai_dev: "AI Integration",
+                nav_nocode: "NO-CODE",
+                nav_about: "ABOUT US | À PROPOS",
+                nav_blog: "BLOG",
+                nav_book_call: "BOOK A CALL | RÉSERVER 🍁",
+                hero_tagline: "Your Canadian & Global Development Partner",
+                hero_title: "Built Without Limits",
+                hero_desc: "Unlimited development for a flat monthly fee. We take care of all your SaaS, web, and software engineering. No lengthy hiring procedures, eh?<br class=\"hidden sm:block\">\n            No inefficient freelancers. No contracts.",
+                bottleneck_title: "Fix Your Development Bottleneck",
+                bottleneck_desc: "Your software systems are too important to be stalled by slow recruitment or high agency overhead. Partner with dedicated, elite developers who ship clean code daily.",
+                bottleneck_btn: "OUR PLANS | NOS PLANS",
+                services_title: "Our Services | Nos Services",
+                services_btn: "ALL SERVICES",
+                how_title: "Here's how to get started:",
+                step1_title: "Choose a Plan",
+                step1_desc: "Clients select from various plans based on their needs and budget.",
+                step2_title: "Payment",
+                step2_desc: "After selecting a plan, clients proceed to payment.",
+                step3_title: "Onboarding and Backlog",
+                step3_desc: "Upon payment, a Product Manager is assigned to you. You'll align on your dev backlog, prioritize tasks, and our developers will start writing code immediately.",
+                step_btn: "SEE OUR PLANS | NOS PLANS",
+                footer_about_title: "About | À propos",
+                footer_careers: "Careers | Carrières",
+                footer_referral: "Referral Program",
+                footer_services_title: "Services",
+                footer_hire_developer: "Hire a Developer",
+                footer_nocode_dev: "No-code Development",
+                footer_time_material: "Time and material",
+                footer_pricing: "Pricing | Tarifs",
+                footer_capabilities_title: "Capabilities",
+                footer_contact_title: "Contact Us | Contactez-nous",
+                footer_rights: "© 2026 OneDev. All Rights Reserved / Tous droits réservés.",
+                footer_refund_policy: "Refund Policy",
+                footer_privacy_policy: "Privacy Policy",
+                footer_terms: "Terms & Conditions"
+            }
+        };
+
+        const languageMetadata = {
+            en: { flag: "🇺🇸", code: "EN", name: "English (EN)" },
+            de: { flag: "🇩🇪", code: "DE", name: "Deutsch (DE)" },
+            fr: { flag: "🇫🇷", code: "FR", name: "Français (FR)" },
+            it: { flag: "🇮🇹", code: "IT", name: "Italiano (IT)" },
+            ca: { flag: "🇨🇦", code: "CA", name: "Canadian (CA)" }
+        };
+
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+
+            // Set document lang attribute
+            document.documentElement.lang = lang;
+
+            // Save to localStorage
+            localStorage.setItem('selected_language', lang);
+
+            // Update desktop selector text and flag
+            const meta = languageMetadata[lang];
+            document.getElementById('active-lang-flag-desktop').textContent = meta.flag;
+            document.getElementById('active-lang-code-desktop').textContent = meta.code;
+
+            // Update mobile selector text and flag
+            document.getElementById('active-lang-flag-mobile').textContent = meta.flag;
+            document.getElementById('active-lang-code-mobile').textContent = `${meta.name.toUpperCase()}`;
+
+            // Translate elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if (el.getAttribute('data-i18n-html') === 'true') {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Close dropdown
+            closeDropdowns();
+        }
+
+        function closeDropdowns() {
+            const dropdown = document.getElementById('lang-dropdown-desktop');
+            const chevron = document.getElementById('lang-chevron-desktop');
+            dropdown.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            chevron.classList.remove('rotate-180');
+        }
+
+        // Desktop Dropdown Open/Close
+        const langBtnDesktop = document.getElementById('lang-btn-desktop');
+        const langDropdownDesktop = document.getElementById('lang-dropdown-desktop');
+        const langChevronDesktop = document.getElementById('lang-chevron-desktop');
+
+        langBtnDesktop.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isClosed = langDropdownDesktop.classList.contains('pointer-events-none');
+            if (isClosed) {
+                langDropdownDesktop.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                langChevronDesktop.classList.add('rotate-180');
+            } else {
+                closeDropdowns();
+            }
+        });
+
+        // Click outside desktop dropdown closes it
+        document.addEventListener('click', () => {
+            closeDropdowns();
+        });
+
+        // Load persisted or browser default language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selected_language') || 'en';
+            changeLanguage(savedLang);
+        });
+    </script>
+</body>
+
+</html>
