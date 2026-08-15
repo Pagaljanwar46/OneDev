@@ -36,8 +36,8 @@
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "USD",
-        "lowPrice": "1999",
-        "highPrice": "2999",
+        "lowPrice": "119",
+        "highPrice": "1999",
         "offerCount": "2"
       }
     }
@@ -153,12 +153,12 @@
             <button id="btn-3mo"
                 class="toggle-btn text-gray-500 font-medium hover:text-dark px-6 py-3 rounded-full transition-all duration-300 flex flex-col items-center justify-center leading-tight text-sm sm:text-base whitespace-nowrap">
                 3 months
-                <span class="text-xs font-normal">10% off</span>
+                <span class="text-xs font-normal">15% off</span>
             </button>
             <button id="btn-6mo"
                 class="toggle-btn text-gray-500 font-medium hover:text-dark px-6 py-3 rounded-full transition-all duration-300 flex flex-col items-center justify-center leading-tight text-sm sm:text-base whitespace-nowrap">
                 6 months
-                <span class="text-xs font-normal">20% off</span>
+                <span class="text-xs font-normal">25% off</span>
             </button>
         </div>
     </section>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="text-left md:text-right">
                     <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
-                        $<span id="price-visual">1999</span>
+                        $<span id="price-visual">119</span>
                     </div>
                     <p id="period-visual" class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Per Month</p>
                 </div>
@@ -200,10 +200,10 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <button onclick="window.location.href='booking.html'"
+                <button onclick="window.location.href='booking.html?plan=Basic'"
                     class="w-full border-2 border-dark text-dark font-bold text-lg py-4 rounded-full hover:bg-dark hover:text-white transition duration-300">GET
                     STARTED</button>
-                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                <button onclick="window.location.href='booking.html?plan=Basic'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
                     ALL PLAN CAPABILITIES</button>
             </div>
         </div>
@@ -227,7 +227,7 @@
                 </div>
                 <div class="text-left md:text-right">
                     <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
-                        $<span id="price-creative">2999</span>
+                        $<span id="price-creative">169</span>
                     </div>
                     <p id="period-creative" class="text-sm font-bold text-dark/60 uppercase tracking-wide mt-1">Per Month</p>
                 </div>
@@ -266,10 +266,10 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <button onclick="window.location.href='booking.html'"
+                <button onclick="window.location.href='booking.html?plan=Standard'"
                     class="w-full bg-white text-dark font-bold text-lg py-4 rounded-full hover:bg-gray-100 transition duration-300 shadow-sm">GET
                     STARTED</button>
-                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                <button onclick="window.location.href='booking.html?plan=Standard'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
                     ALL PLAN CAPABILITIES</button>
             </div>
         </div>
@@ -290,7 +290,7 @@
                 </div>
                 <div class="text-left md:text-right">
                     <div class="text-5xl font-heading font-bold flex items-baseline gap-1">
-                        $<span id="price-build">3999</span>
+                        $<span id="price-build">249</span>
                     </div>
                     <p id="period-build" class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Per Month</p>
                 </div>
@@ -311,10 +311,10 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <button onclick="window.location.href='booking.html'"
+                <button onclick="window.location.href='booking.html?plan=Ultimate'"
                     class="w-full border-2 border-dark text-dark font-bold text-lg py-4 rounded-full hover:bg-dark hover:text-white transition duration-300">GET
                     STARTED</button>
-                <button onclick="window.location.href='booking.html'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
+                <button onclick="window.location.href='booking.html?plan=Ultimate'" class="w-full text-dark font-semibold text-sm hover:underline uppercase tracking-wide py-2">VIEW
                     ALL PLAN CAPABILITIES</button>
             </div>
         </div>
@@ -390,12 +390,12 @@
 
         // State variables
         let currentBillingType = 'monthly'; // 'monthly' or 'onetime'
-        let currentDurationDiscount = 1.0;  // 1.0 (1mo), 0.9 (3mo), 0.8 (6mo)
+        let currentDurationDiscount = 1.0;  // 1.0 (1mo), 0.85 (3mo), 0.75 (6mo)
 
         // Prices Database
         const prices = {
-            monthly: { basic: 1999, standard: 2999, ultimate: 3999 },
-            onetime: { basic: 4999, standard: 8999, ultimate: 14999 }
+            monthly: { basic: 119, standard: 169, ultimate: 249 },
+            onetime: { basic: 699, standard: 999, ultimate: 1999 }
         };
 
         function renderPrices() {
@@ -467,13 +467,13 @@
 
         btn3mo.addEventListener('click', () => {
             setActiveDurationButton(btn3mo);
-            currentDurationDiscount = 0.9;
+            currentDurationDiscount = 0.85;
             renderPrices();
         });
 
         btn6mo.addEventListener('click', () => {
             setActiveDurationButton(btn6mo);
-            currentDurationDiscount = 0.8;
+            currentDurationDiscount = 0.75;
             renderPrices();
         });
 
